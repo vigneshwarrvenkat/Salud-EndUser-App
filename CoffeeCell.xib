@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CoffeeCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q94-Mx-VQu">
+                        <rect key="frame" x="18" y="8" width="212" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xl-Pr-2sd">
+                        <rect key="frame" x="18" y="37" width="288" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwi-p8-MLJ">
+                        <rect key="frame" x="238" y="8" width="68" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gwi-p8-MLJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="7BC-gw-W3A"/>
+                    <constraint firstAttribute="centerY" secondItem="Q94-Mx-VQu" secondAttribute="centerY" constant="11" id="93Y-XL-fe1"/>
+                    <constraint firstItem="gwi-p8-MLJ" firstAttribute="leading" secondItem="Q94-Mx-VQu" secondAttribute="trailing" constant="8" id="Tvz-xi-auJ"/>
+                    <constraint firstItem="Q94-Mx-VQu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="bh0-d6-ild"/>
+                    <constraint firstItem="0Xl-Pr-2sd" firstAttribute="top" secondItem="gwi-p8-MLJ" secondAttribute="bottom" constant="8" id="dYD-BR-Jhg"/>
+                    <constraint firstAttribute="centerX" secondItem="0Xl-Pr-2sd" secondAttribute="centerX" constant="-2" id="eSb-q6-0S9"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gwi-p8-MLJ" secondAttribute="trailing" constant="6" id="nyI-W5-B9d"/>
+                    <constraint firstAttribute="centerX" secondItem="gwi-p8-MLJ" secondAttribute="centerX" constant="-112" id="o5c-gv-A08"/>
+                    <constraint firstItem="0Xl-Pr-2sd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="ohh-V4-fnW"/>
+                    <constraint firstAttribute="centerX" secondItem="Q94-Mx-VQu" secondAttribute="centerX" constant="36" id="t1r-gs-M2r"/>
+                    <constraint firstAttribute="centerY" secondItem="0Xl-Pr-2sd" secondAttribute="centerY" constant="-18" id="t27-M6-WyQ"/>
+                    <constraint firstItem="Q94-Mx-VQu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="tne-1r-gvY"/>
+                    <constraint firstItem="0Xl-Pr-2sd" firstAttribute="top" secondItem="Q94-Mx-VQu" secondAttribute="bottom" constant="8" id="vZN-kI-8ko"/>
+                    <constraint firstAttribute="centerY" secondItem="gwi-p8-MLJ" secondAttribute="centerY" constant="11" id="vwd-AM-dqx"/>
+                    <constraint firstItem="0Xl-Pr-2sd" firstAttribute="leading" secondItem="Q94-Mx-VQu" secondAttribute="trailing" constant="-212" id="zve-yd-E9s"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.65858157530000005" green="1" blue="0.40874380220000001" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="coffeesIngredientsLabel" destination="0Xl-Pr-2sd" id="bb3-9U-IJ9"/>
+                <outlet property="coffeesNameLabel" destination="Q94-Mx-VQu" id="Ai0-4c-lqH"/>
+                <outlet property="priceCoffee" destination="gwi-p8-MLJ" id="Gq5-pC-SEc"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
