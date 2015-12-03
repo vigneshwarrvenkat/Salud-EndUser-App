@@ -13,6 +13,8 @@
 
 #import "Coffee.h"
 #import "Coffees.h"
+#import "Reachability.h"
+
 
 
 @interface CoffeeViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -28,7 +30,7 @@
 
 @implementation CoffeeViewController
 
-
+NSString* statusCoffeeConnection = @"";
 
 @synthesize tableView;
 
@@ -47,11 +49,31 @@
     // loads the view when the controller is initiated
     [super viewDidLoad];
     
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        statusCoffeeConnection = @"No";
+        
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+        
+    {
+    
     self.item = @[@"Item 1", @"Item 2", @"Item 3", @"Item 4", @"Item 5"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"CoffeeCell" bundle:nil] forCellReuseIdentifier:@"CoffeeCell"];
     
     self.str7 = @"Coffee";
+        
+    }
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 #pragma mark - Table view data source
@@ -63,14 +85,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
+     if (![statusCoffeeConnection isEqualToString:@"No"]){
+    
     return [Coffees sharedInstance].allCoffees.count;
+         
+     }
+     else{
+         return 1;
+     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Table view delegate-populatess the row based on the index path
     
-    
+     if (![statusCoffeeConnection isEqualToString:@"No"]){
     
     Coffee* coffee = [Coffees sharedInstance].allCoffees[indexPath.row];
     
@@ -86,6 +116,24 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
+     }
+    
+     else{
+         
+         static NSString *CellIdentifier = @"newFriendCell";
+         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+         
+         if (cell == nil) {
+             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+         }
+         cell.textLabel.font = [cell.textLabel.font fontWithSize:14];
+         cell.textLabel.numberOfLines = 0;
+         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+         cell.textLabel.text = @"No Internet Connection. \nPlease Connect to the Internet...";
+         
+         return cell;
+         
+     }
     
 }
 

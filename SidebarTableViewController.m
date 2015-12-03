@@ -22,7 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    menuItems = @[@"title", @"news", @"comments", @"map", @"wishlist", @"bookmark", @"tag"];
+    menuItems = @[@"title", @"news", @"wishlist", @"bookmark", @"tag"];
+    
+    self.tableView.tableFooterView = [[UITableView alloc] initWithFrame:CGRectZero];
 }
 
 
@@ -65,6 +67,9 @@
     NSString *CellIdentifier = [menuItems objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    
+    
+    
     return cell;
 }
 
@@ -87,8 +92,8 @@
     if ([segue.identifier isEqualToString:@"showPhoto"]) {
         UINavigationController *navController = segue.destinationViewController;
         LoyaltyViewController *loyaltyController = [navController childViewControllers].firstObject;
-        NSString *loyaltyFilename = [NSString stringWithFormat:@"%@_photo", [menuItems objectAtIndex:indexPath.row]];
-        loyaltyController.loyaltyFilename = loyaltyFilename;
+       // NSString *loyaltyFilename = [NSString stringWithFormat:@"%@_photo", [menuItems objectAtIndex:indexPath.row]];
+       // loyaltyController.loyaltyFilename = loyaltyFilename;
     }
 }
 

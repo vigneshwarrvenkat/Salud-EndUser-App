@@ -17,9 +17,13 @@
 @property (strong, nonatomic) NSNumber* healthID;
 @property (strong, nonatomic) NSString* healthName;
 @property (strong, nonatomic) NSString* healthIngredients;
-@property (strong, nonatomic) NSString* photoURL;
+@property (strong, nonatomic) NSString* healthshotInstructions;
 
 @property (strong, nonatomic) NSNumber* healthPrice;        //$$
-@property (strong, nonatomic) NSNumber* healthQuantity;
+@property (strong, nonatomic) NSNumber* healthQuantityPetite;
+
+@property (strong, nonatomic) NSNumber* healthQuantityRegular;
+
+@property (strong, nonatomic) NSNumber* healthQuantityGrowler;
 
 @end

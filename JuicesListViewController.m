@@ -16,6 +16,8 @@
 #import "Juice.h"
 #import "Juices.h"
 #import "Global.h"
+#import "Reachability.h"
+
 
 
 @interface JuicesListViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -30,6 +32,7 @@
 
 @implementation JuicesListViewController
 
+NSString* statusJuiceConnection = @"";
 
 @synthesize juices;
 @synthesize tableView;
@@ -50,11 +53,32 @@
     
    
     
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+       statusJuiceConnection = @"No";
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+        
+    {
+
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"JuicesCell" bundle:nil] forCellReuseIdentifier:@"JuicesCell"];
     
     self.str1 = @"Juice";
     
    // [tableView reloadData];
+        
+    }
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
 }
 
@@ -68,7 +92,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
+     if (![statusJuiceConnection isEqualToString:@"No"]){
+         
+    
     return [Juices sharedInstance].allJuices.count;
+     }
+         else{
+             return 1;
+         }
 }
 
 
@@ -93,9 +125,18 @@
     
     */
     
-    Juice* juice = [Juices sharedInstance].allJuices[indexPath.row];
+     if (![statusJuiceConnection isEqualToString:@"No"]){
     
     JuicesCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"JuicesCell"];
+    
+    
+    
+    
+    
+    
+    Juice* juice = [Juices sharedInstance].allJuices[indexPath.row];
+    
+   // JuicesCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"JuicesCell"];
   //  [cell.puppyImageView setImageWithURL:[NSURL URLWithString:puppy.photoURL]];
     cell.juiceNameLabel.text =  juice.name;
     
@@ -106,7 +147,22 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
-    
+     }
+     else{
+         static NSString *CellIdentifier = @"newFriendCell";
+         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+         
+         if (cell == nil) {
+             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+         }
+         cell.textLabel.font = [cell.textLabel.font fontWithSize:14];
+         cell.textLabel.numberOfLines = 0;
+         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+         cell.textLabel.text = @"No Internet Connection. \nPlease Connect to the Internet...";
+         
+         return cell;
+         
+     }
     
     
     

@@ -11,6 +11,8 @@
 
 #import "Coffee.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 
 @implementation Coffees
@@ -37,6 +39,26 @@
 
 - (NSArray *)loadCoffeesFromJSON {
     
+    
+    /*
+    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+    
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        [view displayMessage];
+        
+       // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+    
+    {
+    */
     
     RemoteLogin *remote = [[RemoteLogin alloc] init];
     
@@ -79,14 +101,16 @@
             if([category  isEqual: @"COFFEE-BASED"])
             {
                 
-                // juice.bowlID = bowlDictionary[@"id"];
+                juice.coffeeID = coffeeDictionary[@"menu_id"];
                 juice.coffeeName = coffeeDictionary[@"item_name"];
                 juice.coffeeIngredients = coffeeDictionary[@"description"];
                 // puppy.photoURL = puppyDictionary[@"photo-large"];
                 // puppy.maxHeight = puppyDictionary[@"max_weight"];
-                juice.coffeeQuantity = coffeeDictionary[@"petite"];
+                juice.coffeeQuantityPetite = coffeeDictionary[@"petite"];
+                juice.coffeeQuantityRegular = coffeeDictionary[@"regular"];
+                juice.coffeeQuantityGrowler = coffeeDictionary[@"growler"];
                 // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-                juice.coffeePrice = coffeeDictionary[@"regular"];
+               // juice.coffeePrice = coffeeDictionary[@"regular"];
                 [coffeeArray addObject:juice];
                 
             }
@@ -99,6 +123,7 @@
         return coffeeArray;
         
     }
+        
     
 }
 

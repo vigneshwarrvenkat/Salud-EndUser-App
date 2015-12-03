@@ -10,6 +10,8 @@
 #import "Bowls.h"
 #import "Bowl.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 
 @implementation Bowls
@@ -35,6 +37,26 @@
 }
 
 - (NSArray *)loadBowlsFromJSON {
+    
+    
+    
+//    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+//    
+//    //Below code checks whether internet connection is there or not
+//    
+//    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+//    
+//    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+//    
+//    if (networkStatus == NotReachable) {
+//        
+//        [view displayMessage];
+//        
+//        // [displayMessage:@"No Internet Connection available..Please try again later."];
+//        
+//    } else
+//        
+//    {
     
     
     RemoteLogin *remote = [[RemoteLogin alloc] init];
@@ -69,7 +91,7 @@
     for (NSDictionary* bowlDictionary in menuArray) {
         
         
-        NSLog(@"bowlsdiction: %@",bowlDictionary);
+     //   NSLog(@"bowlsdiction: %@",bowlDictionary);
 
         Bowl* juice = [[Bowl alloc] init];
         
@@ -78,12 +100,14 @@
         if([category  isEqual: @"JUICES"])
         {
         
-       // juice.bowlID = bowlDictionary[@"id"];
+        juice.bowlID = bowlDictionary[@"menu_id"];
         juice.bowlName = bowlDictionary[@"item_name"];
         juice.bowlIngredients = bowlDictionary[@"description"];
         // puppy.photoURL = puppyDictionary[@"photo-large"];
         // puppy.maxHeight = puppyDictionary[@"max_weight"];
-        juice.bowlQuantity = bowlDictionary[@"petite"];
+        juice.bowlQuantityPetite = bowlDictionary[@"petite"];
+            juice.bowlQuantityRegular = bowlDictionary[@"regular"];
+            juice.bowlQuantityGrowler = bowlDictionary[@"growler"];
         // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
         juice.bowlPrice = bowlDictionary[@"regular"];
         [bowlArray addObject:juice];

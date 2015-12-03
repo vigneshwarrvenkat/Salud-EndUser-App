@@ -16,9 +16,12 @@
 @property (strong, nonatomic) NSNumber* hotID;
 @property (strong, nonatomic) NSString* hotName;
 @property (strong, nonatomic) NSString* hotIngredients;
-@property (strong, nonatomic) NSString* photoURL;
+@property (strong, nonatomic) NSString* hotInstructions;
 
 @property (strong, nonatomic) NSNumber* hotPrice;        //$$
-@property (strong, nonatomic) NSNumber* hotQuantity;
+@property (strong, nonatomic) NSNumber* hotQuantityPetite;
+@property (strong, nonatomic) NSNumber* hotQuantityRegular;
+
+@property (strong, nonatomic) NSNumber* hotQuantityGrowler;
 
 @end

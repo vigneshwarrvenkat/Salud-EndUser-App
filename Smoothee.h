@@ -19,7 +19,14 @@
 @property (strong, nonatomic) NSString* photoURL;
 
 @property (strong, nonatomic) NSNumber* smootheePrice;        //$$
-@property (strong, nonatomic) NSNumber* smootheeQuantity;    //lbs
+@property (strong, nonatomic) NSNumber* smootheeQuantityPetite;    //lbs
+
+@property (strong, nonatomic) NSNumber* smootheeQuantityRegular;
+
+@property (strong, nonatomic) NSNumber* smootheeQuantityGrowler;
+
+@property (strong, nonatomic) NSString* smootheeInstructions;
+
 //@property (strong, nonatomic) NSNumber* maxHeight;    //in
 //@property (strong, nonatomic) NSNumber* cuddleFactor; //out of 5
 

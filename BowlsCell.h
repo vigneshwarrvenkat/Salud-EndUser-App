@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DYAlertPickView.h"
 
-@interface BowlsCell : UITableViewCell< DYAlertPickViewDataSource, DYAlertPickViewDelegate >
+@interface BowlsCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UIImageView *bowlImageView;
 @property (nonatomic, strong) IBOutlet UILabel *bowlNameLabel;

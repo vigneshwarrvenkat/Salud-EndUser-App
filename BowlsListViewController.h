@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 //#import "DYAlertPickView.h"
-#import "myJson.h"
+
 
 
 //Implments the JSOn delegate
 
-@interface BowlsListViewController : UITableViewController<myJsonDelegate>
+@interface BowlsListViewController : UITableViewController
 
 
 @property (nonatomic, retain) NSMutableArray *bowls;

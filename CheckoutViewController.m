@@ -24,11 +24,12 @@
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet UIView *continueButtonView;
+@property (strong, nonatomic) IBOutlet UIView *continueButtonView;   //continue button view
 @property (strong, nonatomic) IBOutlet UIButton *continueButton;
-
+@property (strong, nonatomic) NSString* categoryItem;         //to store the current category item
 @property (strong, nonatomic) CheckoutCart* checkoutCart;
-
+-(NSString*)calculateAddins :(NSString*) value;
+-(NSString*)stringAppend:(NSString*) valueId second: (NSString*) valueName third: (NSArray*) valueAddin fourth:(NSString*) valuequantity fifth: (NSString*) valueType;
 
 
 @end
@@ -49,6 +50,7 @@
     
     menuSectionTitles =@[@"Juice",@"Bowl",@"Smoothee",@"HealthShot",@"HotDrink",@"Coffee",@"Total"];
     
+   // self.checkoutCart.allItems=@"";
     
 }
 //loads when the controller shows up from the stack
@@ -136,12 +138,16 @@
     
     if ([sectionTitle  isEqual: @"Juice"]){
         
-        return self.checkoutCart.juicesInCart.count;
         
+        
+        return self.checkoutCart.juicesInCart.count;
+       
     }
     
     
     if ([sectionTitle  isEqual: @"Bowl"]){
+        
+         _categoryItem = @"Bowl";
         
         return self.checkoutCart.bowlsInCart.count;
         
@@ -150,6 +156,8 @@
     
     if ([sectionTitle  isEqual: @"Smoothee"]){
         
+         _categoryItem = @"Smoothee";
+        
         return self.checkoutCart.smootheesInCart.count;
         
     }
@@ -157,6 +165,7 @@
     if ([sectionTitle  isEqual: @"HealthShot"]){
         
         
+         _categoryItem = @"HealthShot";
         NSLog(@"section :%ld",self.checkoutCart.healthshotsInCart.count);
         
         return self.checkoutCart.healthshotsInCart.count;
@@ -165,12 +174,16 @@
     
     if ([sectionTitle  isEqual: @"HotDrink"]){
         
+         _categoryItem = @"HotDrink";
+        
         return self.checkoutCart.hotdrinksInCart.count;
         
     }
     
     
     if ([sectionTitle  isEqual: @"Coffee"]){
+        
+         _categoryItem = @"Coffee";
         
         return self.checkoutCart.coffeesInCart.count;
         
@@ -209,7 +222,50 @@
         
             
         case 0:
+            
+            
         {
+            /*
+          
+            NSString* addinNam = @"";
+            double total =0.2f;
+         //   int i=0;
+            
+            if([self.checkoutCart.addinDict objectForKey:[NSString stringWithFormat:@"Juice-addin"]]>0)
+            {
+            
+            for(Addin *addin in [self.checkoutCart.addinDict objectForKey:[NSString stringWithFormat:@"Juice-addin"]]){
+                
+                
+                
+                if(![addinNam isEqualToString:@""])
+                {
+                    addinNam =  [[addinNam stringByAppendingString:@","] stringByAppendingString:addin.addinName];
+                    
+                   
+                }
+                else
+                {
+                    addinNam =  [addinNam stringByAppendingString:addin.addinName];
+                }
+                
+                 total += [addin.addinPrice doubleValue];
+            }
+                
+            }
+            else{
+                
+                addinNam = @"No Addin";
+                
+            }
+            
+            */
+           
+            
+           NSString* addinNam = [self calculateAddins: @"Juice-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+            
             
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
@@ -219,14 +275,49 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:juice.name];
                 
                 
+                NSLog(@"Addins :%@",addinNam);
+                
+                
                 cell.juiceNameLabel.text =  juice.name;
-                cell.juiceIngredientLabel.text = juice.ingredients;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", juice.price];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"Juice"];
+                //cell.addinpriceLabel.text = [NSString stringWithFormat:@"%0.2f",total];
+                
+                
+                cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
                 
+                NSLog(@"Value Count:%@",[valueCount stringValue]);
+                
+                
+//                if([self.checkoutCart.allItems isEqualToString:@""]){
+//                    
+//                    self.checkoutCart.allItems = [NSString stringWithFormat:@"%@",juice.ID];
+//                    
+//                }
+//                else{
+//                    self.checkoutCart.allItems = [[self.checkoutCart.allItems stringByAppendingString:@";"] stringByAppendingString:[NSString stringWithFormat:@"%@",juice.ID]];
+//                    
+//                
+//                }
+//                
+//                self.checkoutCart.allItems = [[[[[[self.checkoutCart.allItems stringByAppendingString:@","] stringByAppendingString:juice.name] stringByAppendingString:@","] stringByAppendingString:addin[0]] stringByAppendingString:@","] stringByAppendingString:[self.checkoutCart.quantity  objectForKey:@"Juice"]];
+//                                    NSLog(@"Addin[0]:%@",addin[0]);
+//                
+//               NSArray* addi = addin[0];
+//                
+//                NSString *arr = [addi componentsJoinedByString:@","];
+//                               
+                
+//                NSLog(@"Arr:%@",arr);
+                
+                self.checkoutCart.allItems = [self stringAppend:[juice.ID stringValue] second:juice.name third:addin[0] fourth:[valueCount stringValue] fifth:[self.checkoutCart.quantity  objectForKey:@"Juice"]];
+                
+             //   NSLog(@"Juice final :%@",self.checkoutCart.allItems);
+//                
             }
             
             cells =cell;
@@ -236,6 +327,13 @@
             
         case 1:
         {
+            
+            NSString* addinNam = [self calculateAddins: @"Bowl-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+            
+            
+            
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
             if ((unsigned long)self.checkoutCart.bowlsInCart.count !=0){
@@ -246,12 +344,19 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:bowl.bowlName];
                 
                 cell.juiceNameLabel.text =  bowl.bowlName;
-                cell.juiceIngredientLabel.text = bowl.bowlIngredients;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", bowl.bowlPrice];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"Bowl"];
+                cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
+                
+                self.checkoutCart.allItems = [self stringAppend:[bowl.bowlID stringValue] second:bowl.bowlName third:addin[0] fourth:[valueCount stringValue] fifth:[self.checkoutCart.quantity  objectForKey:@"Bowl"]];
+                
+              //  NSLog(@"Juice final :%@",self.checkoutCart.allItems);
+
+                
                 
             }
             
@@ -263,6 +368,11 @@
         case 2:
         {
             
+            
+            NSString* addinNam = [self calculateAddins: @"Smoothee-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+            
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
             if ((unsigned long)self.checkoutCart.smootheesInCart.count !=0){
@@ -273,12 +383,18 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:smoothee.smootheeName];
                 
                 cell.juiceNameLabel.text =  smoothee.smootheeName;
-                cell.juiceIngredientLabel.text = smoothee.smootheeIngredients;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", smoothee.smootheePrice];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"Smoothee"];
+                cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
+                
+                
+                self.checkoutCart.allItems = [self stringAppend:[smoothee.smootheeID stringValue] second:smoothee.smootheeName third:addin[0] fourth:[valueCount stringValue] fifth:[self.checkoutCart.quantity  objectForKey:@"Smoothee"]];
+                
+                   NSLog(@"Juice final :%@",self.checkoutCart.allItems);
                 
             }
             
@@ -290,6 +406,11 @@
         case 3:
         {
             
+            NSString* addinNam = [self calculateAddins: @"HealthShot-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+
+            
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
             if ((unsigned long)self.checkoutCart.healthshotsInCart.count !=0){
@@ -299,12 +420,19 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:healthshot.healthName];
                 
                 cell.juiceNameLabel.text =  healthshot.healthName;
-                cell.juiceIngredientLabel.text = healthshot.healthIngredients;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", healthshot.healthPrice];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"HealthShot"];
+                 cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
+                
+                
+                self.checkoutCart.allItems = [self stringAppend:[healthshot.healthID stringValue] second:healthshot.healthName third:addin[0] fourth:[valueCount stringValue] fifth:[self.checkoutCart.quantity  objectForKey:@"HealthShot"]];
+                
+                
+
                 
             }
             
@@ -317,6 +445,11 @@
         case 4:
         {
             
+            NSString* addinNam = [self calculateAddins: @"HotDrink-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+
+            
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
             if ((unsigned long)self.checkoutCart.hotdrinksInCart.count !=0){
@@ -326,10 +459,11 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:hotdrink.hotName];
                 
                 cell.juiceNameLabel.text =  hotdrink.hotName;
-                cell.juiceIngredientLabel.text = hotdrink.hotName;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", hotdrink.hotPrice];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"HotDrink"];
+                 cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
                 
@@ -343,6 +477,11 @@
         case 5:
         {
             
+            NSString* addinNam = [self calculateAddins: @"Coffee-addin"];
+            
+            NSArray* addin = [addinNam componentsSeparatedByString:@"-"];
+
+            
             CheckoutCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutCell"];
             
             if ((unsigned long)self.checkoutCart.coffeesInCart.count !=0){
@@ -352,10 +491,11 @@
                 NSNumber *valueCount = [self.checkoutCart.juiceDict objectForKey:coffee.coffeeName];
                 
                 cell.juiceNameLabel.text =  coffee.coffeeName;
-                cell.juiceIngredientLabel.text = coffee.coffeeIngredients;
+                cell.juiceIngredientLabel.text = addin[0];
                 cell.priceLabel.text = [NSString stringWithFormat:@"$%@", coffee.coffeePrice];
                 cell.juiceCount.text = [NSString stringWithFormat:@"%@ X", valueCount];
                 cell.juiceType.text = [self.checkoutCart.quantity  objectForKey:@"Coffee"];
+                 cell.addinpriceLabel.text = addin[1];
                 
                 NSLog(@"Type_value:%@",cell.juiceType.text);
                 
@@ -779,6 +919,89 @@ if (indexPath.section == 5){
     
     return YES;
     
+}
+
+
+
+-(NSString*)calculateAddins :(NSString*) value{
+  
+    NSString* addinNam = @"";
+    double total =0.2f;
+    //   int i=0;
+    
+    if(self.checkoutCart.addinDict.count>0)
+    {
+        
+        for(Addin *addin in [self.checkoutCart.addinDict objectForKey:value]){
+            
+            
+            
+            if(![addinNam isEqualToString:@""])
+            {
+                addinNam =  [[addinNam stringByAppendingString:@","] stringByAppendingString:addin.addinName];
+                
+                
+            }
+            else
+            {
+                addinNam =  [addinNam stringByAppendingString:addin.addinName];
+            }
+            
+            total += [addin.addinPrice doubleValue];
+        }
+        
+        addinNam =  [[addinNam stringByAppendingString:@"-"] stringByAppendingString:[NSString stringWithFormat:@"%0.2f",total]];
+        
+        return addinNam;
+        
+    }
+    else{
+        
+        addinNam = @"No Addin-0";
+        
+        return addinNam;
+    }
+}
+-(NSString*)stringAppend:(NSString*) valueId second: (NSString*) valueName third: (NSArray*) valueAddin fourth:(NSString*) valuequantity fifth: (NSString*) valueType{
+    
+    NSLog(@"%@", self.checkoutCart.allItems);
+        
+    if(self.checkoutCart.allItems.length == 0){
+        
+        self.checkoutCart.allItems=@"";
+        self.checkoutCart.allItemName=@"";
+        
+        self.checkoutCart.allItems = [NSString stringWithFormat:@"%@",valueId];
+        
+        self.checkoutCart.allItemName = valueName;
+        
+    }
+    else{
+        self.checkoutCart.allItems = [[self.checkoutCart.allItems stringByAppendingString:@";"] stringByAppendingString:[NSString stringWithFormat:@"%@",valueId]];
+        
+        self.checkoutCart.allItemName = [[self.checkoutCart.allItemName stringByAppendingString:@","] stringByAppendingString:valueName];
+    }
+    
+//    self.checkoutCart.allItems = [[[[[[[[self.checkoutCart.allItems stringByAppendingString:@","] stringByAppendingString:valueName] stringByAppendingString:@","] stringByAppendingString:[NSString stringWithFormat:@"%@",valueAddin]] stringByAppendingString:@","] stringByAppendingString:valuequantity] stringByAppendingString:@","] stringByAppendingString:valueType];
+    
+    NSLog(@"%@,%@,%@,%@",self.checkoutCart.allItems, valueName,valuequantity,valueType);
+    
+    NSLog(@"hai item :%@",self.checkoutCart.allItemName);
+    
+//    NSLog(@"Value Addin - %@",valueAddin);
+//    
+//    NSString* Addin = [valueAddin componentsJoinedByString:@"-"];
+//    
+//    NSLog(@"%@", Addin);
+    
+    //self.checkoutCart.allItemName =
+    
+    self.checkoutCart.allItems = [[[[[[[[[[[[self.checkoutCart.allItems stringByAppendingString:@","] stringByAppendingString:valueName] stringByAppendingString:@","] stringByAppendingString:valuequantity] stringByAppendingString:@","] stringByAppendingString:valueType] stringByAppendingString:@","] stringByAppendingString:@"NO"] stringByAppendingString:@"," ]  stringByAppendingString:@"["] stringByAppendingString:[NSString stringWithFormat:@"%@",valueAddin]] stringByAppendingString:@"]"];
+
+    
+  
+   
+    return self.checkoutCart.allItems;
 }
 
 @end

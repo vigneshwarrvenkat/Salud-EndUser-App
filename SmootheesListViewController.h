@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "myJson.h"
 
-@interface SmootheesListViewController : UITableViewController<myJsonDelegate>
+@interface SmootheesListViewController : UITableViewController
 
 @property (nonatomic, retain) NSMutableArray *smoothees;
 

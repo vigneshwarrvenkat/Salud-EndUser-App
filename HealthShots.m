@@ -9,6 +9,8 @@
 #import "HealthShots.h"
 #import "HealthShot.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 @implementation HealthShots
 
@@ -35,7 +37,27 @@
 }
 
 - (NSArray *)loadHealthShotsFromJSON {
-
+    
+    
+    /*
+    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+    
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        [view displayMessage];
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+    
+    {
+*/
 
 RemoteLogin *remote = [[RemoteLogin alloc] init];
 
@@ -83,14 +105,16 @@ else
             
             
             
-           // juice.healthID = healthshotDictionary[@"id"];
+           juice.healthID = healthshotDictionary[@"menu_id"];
             juice.healthName = healthshotDictionary[@"item_name"];
             juice.healthIngredients = healthshotDictionary[@"description"];
             // puppy.photoURL = puppyDictionary[@"photo-large"];
             // puppy.maxHeight = puppyDictionary[@"max_weight"];
-            juice.healthQuantity = healthshotDictionary[@"petite"];
+            juice.healthQuantityPetite = healthshotDictionary[@"petite"];
             // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-            juice.healthPrice = healthshotDictionary[@"regular"];
+            juice.healthQuantityRegular = healthshotDictionary[@"regular"];
+            
+            juice.healthQuantityGrowler = healthshotDictionary[@"growler"];
             [healthshotArray addObject:juice];
             
             
@@ -104,7 +128,8 @@ else
     return healthshotArray;
     
 }
-
+        
+    
 }
 
 

@@ -11,12 +11,15 @@
 #import "JuicesListViewController.h"
 #import "BowlsListViewController.h"
 #import "HealthShotsListViewController.h"
+#import "CheckoutViewController.h"
 #import "SmootheesListViewController.h"
 #import "HotbrevListViewController.h"
 #import "CoffeeViewController.h"
 #import "ContainerViewController.h"
 #import "Header.h"
 #import "AppDelegate.h"
+#import "AddIns.h"
+#import "AddIn.h"
 
 //#import "AFNetworking.h"
 
@@ -26,7 +29,9 @@
 @interface JuiceDetailViewController ()
 {
     AppDelegate *appdelegate ;
+    CheckoutCart *checkout;
 }
+@property (strong, nonatomic) IBOutlet UITextField *txtFldNotes;
 
 @property (strong, nonatomic) IBOutlet UILabel *NameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *juiceNameLabel;
@@ -40,7 +45,14 @@
 @property (nonatomic, assign) NSInteger *juiceCount;
 
 @property (nonatomic, strong) NSMutableArray *arryList;
+
+@property (nonatomic, strong) NSArray *currentQuantityType;
+
 @property (nonatomic, strong) NSMutableArray *arryListCost;
+//@property(nonatomic, strong) NSMutableDictionary *dict;
+
+//@property(nonatomic, strong) NSMutableDictionary *dictforquantityType;
+
 
 
 - (IBAction)addToCartButtonTapped:(id)sender;
@@ -60,7 +72,7 @@ NSInteger b;
 
 
 
-@synthesize str2,stepperCount,str3;
+@synthesize str2,stepperCount,str3,currentCategoryItem;
 
 @synthesize juiceCount;
 
@@ -74,21 +86,11 @@ NSInteger b;
 {
     [super viewDidLoad];
     
-    appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    //Already exist
-    if([appdelegate.categoryDictionary objectForKey:self.juice.name]!=nil)
-        selectedIndexes = [appdelegate.categoryDictionary objectForKey:self.juice.name];
-    else
-        selectedIndexes = [NSMutableArray array];
-    // First time viewing of the juice object
-    
-    self.quantityPressed.selected = NO;
     
     // Do any additional setup after loading the view, typically from a nib.
     
     
-    
+   
     
     
     //  CGRect mainScreenRect = [[UIScreen mainScreen] bounds];
@@ -107,7 +109,7 @@ NSInteger b;
    // if(*ws.title == "Bowls")
    //
     
-    
+    _val = [NSNumber numberWithInt:1]; //Default value of any juice is ONE
     
    str3 = [[NSString alloc]init];
     
@@ -117,6 +119,11 @@ NSInteger b;
     NSLog(@"%@",str2);
     
     if([self.str2 isEqualToString:@"Juice"]){
+        
+        currentCategoryItem = self.juice.name;
+        
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.juice.quantityPetite,self.juice.quantityRegular,self.juice.quantityGrowler,nil];
+        
         
         NSLog(@"%@",str2);
     
@@ -129,6 +136,13 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"Bowl"]){
         
+        currentCategoryItem = self.bowl.bowlName;
+        
+        
+        NSLog(@"%@%@%@",self.bowl.bowlQuantityPetite,self.bowl.bowlQuantityRegular,self.bowl.bowlQuantityGrowler);
+        
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.bowl.bowlQuantityPetite,self.bowl.bowlQuantityRegular,self.bowl.bowlQuantityGrowler,nil];
+        
         [self loadData2];
     }
      
@@ -136,6 +150,10 @@ NSInteger b;
     //For Smoothee to load
     
     if([self.str2 isEqualToString:@"Smoothee"]){
+        
+        currentCategoryItem = self.smoothee.smootheeName;
+        
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.smoothee.smootheeQuantityPetite,self.smoothee.smootheeQuantityRegular,self.smoothee.smootheeQuantityGrowler,nil];
         
          NSLog(@"%@",str2);
         
@@ -148,6 +166,10 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"HealthShot"]){
         
+        currentCategoryItem = self.healthshot.healthName;
+        
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.healthshot.healthQuantityPetite,self.healthshot.healthQuantityRegular,self.healthshot.healthQuantityGrowler,nil];
+        
         [self loadData4];
     }
     
@@ -156,6 +178,10 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"HotDrink"]){
         
+        currentCategoryItem = self.hotdrink.hotName;
+        
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.hotdrink.hotQuantityPetite,self.hotdrink.hotQuantityRegular,self.hotdrink.hotQuantityGrowler,nil];
+        
         [self loadData5];
     }
     
@@ -163,6 +189,9 @@ NSInteger b;
     //For Coffee to load
     
     if([self.str2 isEqualToString:@"Coffee"]){
+        
+        currentCategoryItem = self.coffee.coffeeName;
+        _currentQuantityType = [[NSArray alloc] initWithObjects:self.coffee.coffeeQuantityPetite,self.coffee.coffeeQuantityRegular,self.coffee.coffeeQuantityGrowler,nil];
         
         [self loadData6];
     }
@@ -182,8 +211,8 @@ NSInteger b;
               @"Pista",nil];
     
     
-    self.arryListCost=[[NSMutableArray alloc] initWithObjects: @"$2.5",
-                  @"$2.5",
+    self.arryListCost=[[NSMutableArray alloc] initWithObjects: @"2.5",
+                  @"2.5",
                   @"$2.5",
                   @"$2.5",
                   @"$2.5",
@@ -194,7 +223,92 @@ NSInteger b;
                   @"$2.5",nil];
     
     //[self.theTableView setEditing:YES animated:YES];
-}
+    
+   
+    
+    
+    
+    
+    //appdelage for state management for addins
+    
+    appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //Already exist
+    if([appdelegate.categoryDictionary objectForKey:currentCategoryItem]!=nil)
+        selectedIndexes = [appdelegate.categoryDictionary objectForKey:currentCategoryItem];
+    else
+        selectedIndexes = [NSMutableArray array];
+    // First time viewing of the juice object
+    
+    self.quantityPressed.selected = NO;
+    
+    
+    
+    
+    if( [appdelegate.dictforquantityType objectForKey:[NSString stringWithFormat:@"%@0",currentCategoryItem]]){
+        
+        quantityPressed.selectedSegmentIndex=0;
+        checkboxSelectedRegular = YES;
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@1",currentCategoryItem]];
+        
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@2",currentCategoryItem]];
+        
+
+        
+        
+        
+    }
+    else if ([appdelegate.dictforquantityType objectForKey:[NSString stringWithFormat:@"%@1",currentCategoryItem]]){
+        
+        quantityPressed.selectedSegmentIndex=1;
+        checkboxSelectedPetite = YES;
+        
+        
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@0",currentCategoryItem]];
+        
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@2",currentCategoryItem]];
+        
+        
+    }
+    else if ( [appdelegate.dictforquantityType objectForKey:[NSString stringWithFormat:@"%@2",currentCategoryItem]]){
+        
+        quantityPressed.selectedSegmentIndex=2;
+        checkboxSelectedGrowler = YES;
+               
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@1",currentCategoryItem]];
+        
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@0",currentCategoryItem]];
+        
+        
+    }
+
+    else {
+        
+        appdelegate.dictforquantityType = [[NSMutableDictionary alloc] init];
+    }
+    
+    
+    // Disable the type of juice based on the read data
+    
+    
+    if([_currentQuantityType[0] integerValue] ==0){
+        
+        [quantityPressed setEnabled:NO forSegmentAtIndex:1];
+    }
+    
+    if([_currentQuantityType[1] integerValue]==0){
+        
+        [quantityPressed setEnabled:NO forSegmentAtIndex:0];
+    }
+    
+    if([_currentQuantityType[2] integerValue]==0){
+        
+        [quantityPressed setEnabled:NO forSegmentAtIndex:2];
+    }
+
+    
+    
+    }
 
 
 
@@ -213,7 +327,7 @@ NSInteger b;
 {
     [super viewDidDisappear:animated];
     if (selectedIndexes!=nil && selectedIndexes.count>0)
-        [appdelegate.categoryDictionary setObject:selectedIndexes forKey:self.juice.name];
+        [appdelegate.categoryDictionary setObject:selectedIndexes forKey:currentCategoryItem];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -228,7 +342,9 @@ NSInteger b;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [self.arryList count];
+   // return [self.arryList count];
+    
+    return [AddIns sharedInstance].allAddins.count;
 }
 
 
@@ -240,18 +356,23 @@ NSInteger b;
      cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:AddIn];
      }
     
+    Addin* juice = [AddIns sharedInstance].allAddins[indexPath.row];
     
     NSInteger row = indexPath.row;
     
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
-    cell.textLabel.text = [self.arryList objectAtIndex:row];
+  //  cell.textLabel.text = [self.arryList objectAtIndex:row];
+    
+    cell.textLabel.text = juice.addinName;
     
     cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     cell.detailTextLabel.numberOfLines = 0;
     
     
-    cell.detailTextLabel.text = [self.arryListCost objectAtIndex:row];
+   // cell.detailTextLabel.text = [self.arryListCost objectAtIndex:row];
+    
+    cell.detailTextLabel.text = [juice.addinPrice stringValue];
     
     
     cell.tintColor = [UIColor blueColor];
@@ -368,8 +489,9 @@ NSInteger b;
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"ArryList --- %@", [self.arryList objectAtIndex:indexPath.row]);
-    NSLog(@"ArryListCost --- %@", [self.arryListCost objectAtIndex:indexPath.row]);
+   // CheckoutCart* checkoutcart = [CheckoutCart sharedInstance];
+   // NSLog(@"ArryList --- %@", [self.arryList objectAtIndex:indexPath.row]);
+  //  NSLog(@"ArryListCost --- %@", [self.arryListCost objectAtIndex:indexPath.row]);
     
     UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -384,22 +506,57 @@ NSInteger b;
             if ([selectedIndexes containsObject:index]) {
                 
                 [selectedIndexes removeObject:index];
+                [_addinPrice removeObjectAtIndex:(unsigned)[index intValue]];
 //                cell.accessoryType = UITableViewCellAccessoryNone;
                 [tableView reloadData];
             }
             
-            else
+            else{
                 [selectedIndexes addObject:index];
+             [_addinPrice addObject:[AddIns sharedInstance].allAddins[indexPath.row]];
+            }
         }
         
         else
         {
             [selectedIndexes addObject:index];
+            
+        //   NSLog(@"ArryListCost --- %@", [self.arryListCost objectAtIndex:indexPath.row]);
+            
+            if(!(_addinPrice.count>0)){
+                
+                
+                 _addinPrice = [[NSMutableArray alloc]init];
+            }
+            
+             [_addinPrice addObject:[AddIns sharedInstance].allAddins[indexPath.row]];
         }
         
     }
     
     
+    
+    
+    
+    
+   // NSString* price;
+  //  NSNumber* cost;
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    float costAddin = 0.0f;
+    
+    NSLog(@"Addiin count:%lu",(unsigned long)_addinPrice.count);
+    
+     NSLog(@"Addiin :%@",_addinPrice);
+    
+    for(Addin* addin in self.addinPrice){
+        
+        
+        
+        costAddin  += [addin.addinPrice floatValue];
+        NSLog(@"addin cost: %f",costAddin);
+        
+    }
     
     
     //  NSLog(@"category_value :%@",juice.str2);
@@ -418,7 +575,41 @@ NSInteger b;
 
 
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
+    
+     NSLog(@"unsigned:%u",(unsigned)[index intValue]);
+    
+     NSLog(@"Addiin :%@",_addinPrice);
+    
+
+    [selectedIndexes removeObject:index];
+    [_addinPrice removeObjectAtIndex:(unsigned)[index intValue]];
+    //                cell.accessoryType = UITableViewCellAccessoryNone;
+  //  [tableView reloadData];
+    
+    NSLog(@"Addiin :%@",_addinPrice);
+    
+}
+
+/*
+
+-(void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
+    
+    NSLog(@"%@",index);
+    
+    [selectedIndexes removeObject:index];
+    [_addinPrice removeObjectAtIndex:(unsigned)index];
+    //                cell.accessoryType = UITableViewCellAccessoryNone;
+     [tableView reloadData];
+    
+    NSLog(@"Addiin :%@",_addinPrice);
+    
+}
+
+*/
 //Returns the height of the row
 
 
@@ -614,9 +805,11 @@ NSInteger b;
   
     if([self.str2 isEqualToString:@"Juice"]){
         
+        NSLog(@"%@",self.val);
+        
     
     
-     [checkoutCart addJuiceCount: self.val];
+   //  [checkoutCart addJuiceCount: self.val];
         
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.juice.name];
@@ -629,7 +822,7 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"Bowl"]){
     
-    [checkoutCart addBowlCount: self.val];
+  //  [checkoutCart addBowlCount: self.val];
         
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.bowl.bowlName];
@@ -643,7 +836,7 @@ NSInteger b;
     if([self.str2 isEqualToString:@"Smoothee"]){
     
     
-    [checkoutCart addSmootheeCount: self.val];
+  //  [checkoutCart addSmootheeCount: self.val];
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.smoothee.smootheeName];
 
@@ -656,7 +849,7 @@ NSInteger b;
     if([self.str2 isEqualToString:@"HealthShot"]){
    
     
-    [checkoutCart addHealthshotCount: self.val];
+  //  [checkoutCart addHealthshotCount: self.val];
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.healthshot.healthName];
 
@@ -669,7 +862,7 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"HotDrink"]){
     
-    [checkoutCart addHotdrinkCount: self.val];
+  //  [checkoutCart addHotdrinkCount: self.val];
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.hotdrink.hotName];
 
@@ -682,7 +875,7 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"Coffee"]){
         
-        [checkoutCart addCoffeeCount: self.val];
+    //    [checkoutCart addCoffeeCount: self.val];
         
         [[NSUserDefaults standardUserDefaults] setObject:self.lblStepper.text forKey:self.coffee.coffeeName];
 
@@ -697,6 +890,8 @@ NSInteger b;
                                                otherButtonTitles:nil];
         
         [alert show];
+        stepperCount.value =  1;
+        
     }
     
 
@@ -748,6 +943,7 @@ NSInteger b;
             
             _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
             
+            stepperCount.value =  [_val doubleValue] ;
             
             NSLog(@"assigned _val :%@",_val);
             
@@ -767,6 +963,8 @@ NSInteger b;
         self.lblStepper.text = [[NSUserDefaults standardUserDefaults]  objectForKey:self.bowl.bowlName];
         
         _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
+            
+             stepperCount.value =  [_val doubleValue] ;
         }
     }
     
@@ -783,6 +981,8 @@ NSInteger b;
         self.lblStepper.text = [[NSUserDefaults standardUserDefaults]  objectForKey:self.smoothee.smootheeName];
         
          _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
+            
+             stepperCount.value =  [_val doubleValue] ;
         }
     }
     
@@ -798,6 +998,8 @@ NSInteger b;
        self.lblStepper.text = [[NSUserDefaults standardUserDefaults]  objectForKey:self.healthshot.healthName];
         
          _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
+            
+             stepperCount.value =  [_val doubleValue] ;
     }
     }
     
@@ -814,6 +1016,8 @@ NSInteger b;
         self.lblStepper.text = [[NSUserDefaults standardUserDefaults]  objectForKey:self.hotdrink.hotName];
         
          _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
+            
+             stepperCount.value =  [_val doubleValue] ;
         }
     }
     
@@ -830,6 +1034,8 @@ NSInteger b;
         self.lblStepper.text = [[NSUserDefaults standardUserDefaults]  objectForKey:self.coffee.coffeeName];
         
          _val = [NSNumber numberWithInt:[self.lblStepper.text intValue]];
+            
+             stepperCount.value =  [_val doubleValue] ;
             
             
         }
@@ -855,7 +1061,7 @@ NSInteger b;
    // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
  //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.juice.ingredients;
-    self.quantityLabel.text =  [self.juice.quantity stringValue];
+    self.quantityLabel.text =  [self.juice.quantityPetite stringValue];
   //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.juice.price stringValue] ;
     
@@ -877,7 +1083,7 @@ NSInteger b;
     // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
     //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.bowl.bowlIngredients;
-    self.quantityLabel.text = [self.bowl.bowlQuantity stringValue];
+    self.quantityLabel.text = [self.bowl.bowlQuantityPetite stringValue];
     //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.bowl.bowlPrice stringValue];
 }
@@ -896,7 +1102,7 @@ NSInteger b;
     // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
     //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.smoothee.smootheeIngredients;
-    self.quantityLabel.text = [self.smoothee.smootheeQuantity stringValue];
+    self.quantityLabel.text = [self.smoothee.smootheeQuantityPetite stringValue];
     //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.smoothee.smootheePrice stringValue];
     
@@ -917,7 +1123,7 @@ NSInteger b;
     // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
     //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.healthshot.healthIngredients;
-    self.quantityLabel.text = [self.healthshot.healthQuantity stringValue];
+    self.quantityLabel.text = [self.healthshot.healthQuantityPetite stringValue];
     //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.healthshot.healthPrice stringValue];
 }
@@ -938,7 +1144,7 @@ NSInteger b;
     // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
     //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.hotdrink.hotIngredients;
-    self.quantityLabel.text =  [self.hotdrink.hotQuantity stringValue];
+    self.quantityLabel.text =  [self.hotdrink.hotQuantityPetite stringValue];
     //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.hotdrink.hotPrice stringValue];
 }
@@ -960,7 +1166,7 @@ NSInteger b;
     // NSURL* imageURL = [NSURL URLWithString:self.puppy.photoURL];
     //   [self.puppyImageView setImageWithURL:imageURL placeholderImage:nil];
     self.juiceIngredientLabel.text = self.coffee.coffeeIngredients;
-    self.quantityLabel.text =  [self.coffee.coffeeQuantity stringValue];
+    self.quantityLabel.text =  [self.coffee.coffeeQuantityPetite stringValue];
     //  self.maxHeightLabel.text = [NSString stringWithFormat:@"Max Height: %@ in", self.puppy.maxHeight];
     self.priceLabel.text = [self.coffee.coffeePrice stringValue] ;
     
@@ -974,13 +1180,33 @@ NSInteger b;
 
 
 - (IBAction)addToCartButtonTapped:(id)sender {
+    
+    
+    
+    
     CheckoutCart* checkoutCart = [CheckoutCart sharedInstance];
     
-  NSLog(@"array=%ld",(long)b);
+    if(checkboxSelectedGrowler || checkboxSelectedRegular || checkboxSelectedPetite){
     
-   
+  NSLog(@"array=%ld",(long)b);
+        
+        
+        if(!(self.val)){
+            
+            self.val = [NSNumber numberWithInt:1];
+        }
+    
+   /*
+    checkoutCart.itemDetails = [[NSMutableDictionary alloc] initWithObjects:self.juice.ID,self.juice.name forKeys:@"ID",@"item_name",@"Type",@"quantity";
+    */
+    
+    checkoutCart.instructions = self.specialInstructions.text;
+    
+    if(!(checkoutCart.quantity)){
     
     checkoutCart.quantity = [[NSMutableDictionary alloc] init];
+        
+    }
     
     ContainerViewController *cont =[[ContainerViewController alloc] init];
     cont.delegate = self;
@@ -993,7 +1219,22 @@ NSInteger b;
     
          NSLog(@"array=%ldd",(long)_lblStepper.text);
     
+    //For adding all the addins of any category to dictionary
     
+    
+    /*
+    
+    for(Addin* addin in self.addinPrice){
+        
+        [_dict setObject: addin forKey:[NSString stringWithFormat:@"%@-addin",str2]];
+        
+    }
+    */
+    
+    if(_addinPrice.count>0){
+    
+    [checkoutCart addAddin:_addinPrice second:str2];
+    }
     
     //If Juice and checks for the Type
 
@@ -1001,7 +1242,11 @@ NSInteger b;
         
         NSLog(@"%@,%@",cont.leftText,cont.rightText);
         
+         [checkoutCart addJuiceCount:self.val];
+        
        [checkoutCart addJuice:self.juice];
+        
+       
         
         if(checkboxSelectedGrowler){
             
@@ -1051,7 +1296,12 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"Bowl"]){
         
+         [checkoutCart addBowlCount:self.val];
+        
         [checkoutCart addBowl:self.bowl];
+        
+       
+
         
         NSLog(@" count_value : %@",self.val);
         
@@ -1104,7 +1354,12 @@ NSInteger b;
         
         NSLog(@"%@",str2);
         
+        [checkoutCart addSmootheeCount:self.val];
+        
         [checkoutCart addSmoothee:self.smoothee];
+        
+        
+
         
          NSLog(@" count_value : %@",self.val);
         
@@ -1153,10 +1408,13 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"HealthShot"]){
         
+          [checkoutCart addHealthshotCount:self.val];
+        
         [checkoutCart addHealthShot:self.healthshot];
         
        
-        
+      
+
         
         if(checkboxSelectedGrowler){
             
@@ -1207,10 +1465,13 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"HotDrink"]){
         
+         [checkoutCart addHotdrinkCount:self.val];
+        
         [checkoutCart addHotDrink:self.hotdrink];
         
         
-        
+       
+
         
         
         
@@ -1261,9 +1522,12 @@ NSInteger b;
     
     if([self.str2 isEqualToString:@"Coffee"]){
         
+         [checkoutCart addCoffeeCount:self.val];
+        
         [checkoutCart addCoffee:self.coffee];
         
-        
+       
+
         
         if(checkboxSelectedGrowler){
             
@@ -1296,7 +1560,22 @@ NSInteger b;
     }
 
     
+//    CheckoutViewController *wc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CheckoutViewController"];
+//    [self.navigationController pushViewController:wc animated:YES];
+        
+        
+    }
     
+    else{
+        
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"No Quantity Type" message:@"Please select one quantity type" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil ];
+        
+        [alert show];
+
+        
+        
+    }
+
 
 }
 
@@ -1308,11 +1587,18 @@ NSInteger b;
 - (IBAction)quantityPressed:(UISegmentedControl *)sender {
     
     
+    
+    
     if(quantityPressed.selectedSegmentIndex == 0)
         
     {
         checkboxSelectedRegular = YES;
         //self.view.backgroundColor = [UIColor redColor];
+        
+        [ appdelegate.dictforquantityType setObject: @"YES" forKey:[NSString stringWithFormat:@"%@%ld",currentCategoryItem ,(long)quantityPressed.selectedSegmentIndex]];
+        
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@2",currentCategoryItem]];
+        [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@1",currentCategoryItem]];
         
     }
     
@@ -1324,6 +1610,12 @@ NSInteger b;
             checkboxSelectedPetite = YES;
             //self.view.backgroundColor = [UIColor greenColor];
             
+            [appdelegate.dictforquantityType setObject: @"YES" forKey:[NSString stringWithFormat:@"%@%ld",currentCategoryItem,(long)quantityPressed.selectedSegmentIndex]];
+            
+            [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@2",currentCategoryItem]];
+            [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@0",currentCategoryItem]];
+            
+            
         }
     
     else
@@ -1332,6 +1624,12 @@ NSInteger b;
                 
         {
          checkboxSelectedGrowler = YES;            //self.view.backgroundColor = [UIColor blueColor];
+            
+            [appdelegate.dictforquantityType setObject: @"YES" forKey:[NSString stringWithFormat:@"%@%ld",currentCategoryItem ,(long)quantityPressed.selectedSegmentIndex]];
+            
+            [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@0",currentCategoryItem]];
+            [appdelegate.dictforquantityType removeObjectForKey:[NSString stringWithFormat:@"%@1",currentCategoryItem]];
+            
                 
         }
     

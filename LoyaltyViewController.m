@@ -9,6 +9,7 @@
 #import "LoyaltyViewController.h"
 #import "SWRevealViewController.h"
 #import "RewardPointts.h"
+#import "ViewController.h"
 
 @interface LoyaltyViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -203,4 +204,11 @@
 
 
 
+- (IBAction)menuItems:(UIButton *)sender {
+    
+    ViewController *view = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
+    [self.navigationController pushViewController:view animated:YES];
+    
+    
+}
 @end

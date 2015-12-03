@@ -137,7 +137,7 @@
     
     
     
-    OffersCell *offercell = [self.tableView dequeueReusableCellWithIdentifier:@"OfferCell"];
+    OffersCell *offercell = [self.tableView dequeueReusableCellWithIdentifier:@"OffersCell"];
     
     offercell.offerNameLabel.text = juice.offerName;
     offercell.offerCategory.text = juice.offerName;

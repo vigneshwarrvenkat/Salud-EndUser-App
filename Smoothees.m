@@ -9,6 +9,8 @@
 #import "Smoothees.h"
 #import "Smoothee.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 
 @implementation Smoothees
@@ -34,6 +36,26 @@
 }
 
 - (NSArray *)loadSmootheesFromJSON {
+    
+    
+//    
+//    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+//    
+//    //Below code checks whether internet connection is there or not
+//    
+//    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+//    
+//    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+//    
+//    if (networkStatus == NotReachable) {
+//        
+//        [view displayMessage];
+//        
+//        // [displayMessage:@"No Internet Connection available..Please try again later."];
+//        
+//    } else
+//        
+//    {
 
 
 RemoteLogin *remote = [[RemoteLogin alloc] init];
@@ -68,7 +90,7 @@ else
     for (NSDictionary* smootheeDictionary in menuArray) {
         
         
-        NSLog(@"bowlsdiction: %@",smootheeDictionary);
+     //   NSLog(@"bowlsdiction: %@",smootheeDictionary);
         
         Smoothee* juice = [[Smoothee alloc] init];
 
@@ -80,14 +102,17 @@ else
             
             
             
-                      // juice.smootheeID = smootheeDictionary[@"id"];
+            juice.smootheeID = smootheeDictionary[@"menu_id"];
             juice.smootheeName = smootheeDictionary[@"item_name"];
             juice.smootheeIngredients = smootheeDictionary[@"description"];
             // puppy.photoURL = puppyDictionary[@"photo-large"];
             // puppy.maxHeight = puppyDictionary[@"max_weight"];
-            juice.smootheeQuantity = smootheeDictionary[@"petite"];
+            juice.smootheeQuantityPetite = smootheeDictionary[@"petite"];
+            juice.smootheeQuantityRegular = smootheeDictionary[@"regular"];
+            juice.smootheeQuantityGrowler = smootheeDictionary[@"growler"];
+            
             // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-            juice.smootheePrice = smootheeDictionary[@"regular"];
+            //juice.smootheePrice = smootheeDictionary[@"regular"];
             [smootheeArray addObject:juice];
 
             
@@ -101,6 +126,9 @@ else
     return smootheeArray;
     
 }
+//    }
+//    
+//    return nil;
 
 }
 

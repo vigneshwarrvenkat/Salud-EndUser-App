@@ -16,6 +16,7 @@
 #import "HotDrink.h"
 #import "Bowl.h"
 #import "Coffee.h"
+#import "Addin.h"
 
 
 #import "DropDownListView.h"
@@ -41,12 +42,16 @@ NSMutableArray *arryList;
     IBOutlet UIButton *checkboxGrowler;
     NSMutableArray *selectedIndexes;
     
+    
+    
     DropDownListView * Dropobj;
 }
 
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *quantityPressed;
 @property (strong, nonatomic) IBOutlet UITableView *theTableView;
+@property (strong, nonatomic) NSMutableArray* addinPrice;
+
 
 
 - (IBAction)quantityPressed:(UISegmentedControl *)sender;
@@ -64,6 +69,7 @@ NSMutableArray *arryList;
 @property (nonatomic,retain) IBOutlet UILabel *lblStepper;
 
 
+@property (strong, nonatomic) IBOutlet UITextField *specialInstructions;
 
 
 //properties based on the Objects defined
@@ -80,9 +86,13 @@ NSMutableArray *arryList;
 
 @property (strong, nonatomic) Coffee* coffee;
 
+@property (strong, nonatomic) Addin* addin;
 
 
-@property (nonatomic, strong) NSString *str2;
+
+@property (nonatomic, strong) NSString* str2;
+
+@property (nonatomic, strong) NSString* currentCategoryItem;
 
 @property (nonatomic, strong) NSString *addinCategory;
 

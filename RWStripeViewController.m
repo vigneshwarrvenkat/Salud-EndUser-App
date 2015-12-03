@@ -14,10 +14,11 @@
 #import "CheckoutInputCell.h"
 #import "CheckoutDisplayCell.h"
 
-//#import <AFNetworking/AFNetworking.h>
+#import "AFNetworking.h"
+#import "Stripe.h"
 
 #define STRIPE_TEST_PUBLIC_KEY @"pk_test_KLwf7zaevAL6TXPl6NAECd59"
-#define STRIPE_TEST_POST_URL
+#define STRIPE_TEST_POST_URL @"http://ec2-52-88-11-130.us-west-2.compute.amazonaws.com:3000/salud/order/insert"
 
 @interface RWStripeViewController () <UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIAlertViewDelegate>
 
@@ -36,7 +37,7 @@
 @property (strong, nonatomic) NSNumber* selectedYear;
 @property (strong, nonatomic) UIPickerView *expirationDatePicker;
 
-//@property (strong, nonatomic) AFJSONRequestOperation* httpOperation;
+@property (strong, nonatomic) AFJSONRequestOperation* httpOperation;
 
 @property (strong, nonatomic) STPCard* stripeCard;
 
@@ -77,8 +78,11 @@
     self.stripeCard.name = self.nameTextField.text;
     self.stripeCard.number = self.cardNumber.text;
     self.stripeCard.cvc = self.CVCNumber.text;
+    //self.stripeCard.expMonth = 12;
     self.stripeCard.expMonth = [self.selectedMonth integerValue];
     self.stripeCard.expYear = [self.selectedYear integerValue];
+    
+  //  self.stripeCard.expYear = 2014;
     
     //2
     if ([self validateCustomerInfo]) {
@@ -113,6 +117,8 @@
     //2. Validate card number, CVC, expMonth, expYear
     NSError* error = nil;
     [self.stripeCard validateCardReturningError:&error];
+    
+ //   [self.stripeCard STPCardValidator:&error];
     
     //3
     if (error) {
@@ -157,18 +163,111 @@
 }
 - (void)postStripeToken:(NSString* )token {
     //Implement
+    
+    //1
+    NSURL *postURL = [NSURL URLWithString:STRIPE_TEST_POST_URL];
+    AFHTTPClient* httpClient = [AFHTTPClient clientWithBaseURL:postURL];
+    httpClient.parameterEncoding = AFJSONParameterEncoding;
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    [httpClient setDefaultHeader:@"Accept" value:@"text/json"];
+    
+    //2
+    CheckoutCart* checkoutCart = [CheckoutCart sharedInstance];
+    NSInteger totalCents = [[checkoutCart total] doubleValue] * 100;
+    
+    //3
+    NSMutableDictionary* postRequestDictionary = [[NSMutableDictionary alloc] init];
+    
+    postRequestDictionary[@"order"] = checkoutCart.allItems;
+    postRequestDictionary[@"items"] = checkoutCart.allItemName;
+    //postRequestDictionary[@"userID"] = checkoutCart.userId;
+    postRequestDictionary[@"email"] = checkoutCart.userEmail;
+    postRequestDictionary[@"order_sum"] = [NSString stringWithFormat:@"%ld", (long)totalCents];
+    postRequestDictionary[@"location"] = @"shady";
+    postRequestDictionary[@"stripeToken"] = token;
+    
+    postRequestDictionary[@"stripeDescription"] = @"Purchase from Salud iOS app!";
+    
+    //4
+    NSMutableURLRequest* request = [httpClient requestWithMethod:@"POST" path:nil parameters:postRequestDictionary];
+    
+    
+    
+    self.httpOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        [self chargeDidSucceed];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        [self chargeDidNotSuceed];
+    }];
+    
+    [self.httpOperation start];
+    
+    self.completeButton.enabled = YES;
+    
+    
+    
 }
 
 - (void)handleStripeError:(NSError *) error {
     //Implement
+    
+    
+    //1
+    if ([error.domain isEqualToString:@"StripeDomain"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    //2
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"Please try again"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    self.completeButton.enabled = YES;
+    
+    
+    
 }
 
 - (void)chargeDidSucceed {
     //Implement
+    
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                    message:@"Please enjoy your new pup."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    CheckoutCart* checkoutCart = [CheckoutCart sharedInstance];
+    [checkoutCart clearCart];
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    
 }
 
 - (void)chargeDidNotSuceed {
     //Implement
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Payment not successful"
+                                                    message:@"Please try again later."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    
+    
 }
 
 
@@ -321,7 +420,8 @@
     if (!self.selectedYear) {
         [self.expirationDatePicker selectRow:0 inComponent:1 animated:YES];
         NSString *yearString = [self pickerView:self.expirationDatePicker titleForRow:0 forComponent:1];
-        self.selectedYear = @([yearString integerValue]); //Default to current year if no selection
+//        self.selectedYear = @([yearString integerValue]); //Default to current year if no selection
+        self.selectedYear = [NSNumber numberWithInt:[yearString intValue]]; //Default to current year if no selection
     }
     
     self.expirationDateTextField.text = [NSString stringWithFormat:@"%@/%@", self.selectedMonth, self.selectedYear];

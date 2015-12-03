@@ -9,6 +9,8 @@
 #import "Juices.h"
 #import "Juice.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 
 @implementation Juices
@@ -34,6 +36,25 @@
 }
 
 - (NSArray *)loadJuicesFromJSON {
+    
+    
+//    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+//    
+//    //Below code checks whether internet connection is there or not
+//    
+//    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+//    
+//    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+//    
+//    if (networkStatus == NotReachable) {
+//        
+//        [view displayMessage];
+//        
+//        // [displayMessage:@"No Internet Connection available..Please try again later."];
+//        
+//    } else
+//        
+//    {
     
     
     
@@ -70,18 +91,21 @@
         Juice* juice = [[Juice alloc] init];
         category = itemDict[@"category"];
         
-      //  NSLog(@"Itemdiction : %@",itemDict);
+     //  NSLog(@"Itemdiction Juice : %@",itemDict);
         
         if([category  isEqual: @"JUICES"]){
         
-       // juice.ID = itemDict[@"id"];
+        juice.ID = itemDict[@"menu_id"];
         juice.name = itemDict[@"item_name"];
         juice.ingredients = itemDict[@"description"];
        // puppy.photoURL = puppyDictionary[@"photo-large"];
        // puppy.maxHeight = puppyDictionary[@"max_weight"];
-        juice.quantity = itemDict[@"petite"];
+        juice.quantityPetite = itemDict[@"petite"];
+        juice.quantityRegular = itemDict[@"regular"];
+            juice.quantityGrowler = itemDict[@"growler"];
+
        // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-        juice.price = itemDict[@"regular"];
+       // juice.price = itemDict[@"regular"];
         [juiceArray addObject:juice];
             
         }
@@ -89,7 +113,10 @@
     
     return juiceArray;
 }
-
+//        
+//    }
+//    return nil;
+//
 }
 
 

@@ -12,6 +12,8 @@
 
 #import "HotDrink.h"
 #import "HotDrinks.h"
+#import "Reachability.h"
+
 
 
 
@@ -28,6 +30,8 @@
 @end
 
 @implementation HotbrevListViewController
+
+NSString* statusHotConnection = @"";
 
 @synthesize tableView;
 
@@ -54,11 +58,31 @@
     
    
     
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        statusHotConnection = @"No";
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+        
+    {
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"HotbrevCell" bundle:nil] forCellReuseIdentifier:@"HotbrevCell"];
     
-     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+     
     
     self.str6 = @"HotDrink";
+    }
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
 }
 
 #pragma mark - Table view data source
@@ -70,7 +94,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    if ([statusHotConnection isEqualToString:@"No"]){
+       
+        return 1;
+    }
+    else{
+    
     return [HotDrinks sharedInstance].allHotDrinks.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -85,7 +116,7 @@
     
     return cell;
     */
-    
+     if (![statusHotConnection isEqualToString:@"No"]){
     
     
     HotDrink* hotdrink = [HotDrinks sharedInstance].allHotDrinks[indexPath.row];
@@ -98,9 +129,23 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
-    
-
-    
+         
+     }
+     else{
+         
+         static NSString *CellIdentifier = @"newFriendCell";
+         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+         
+         if (cell == nil) {
+             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+         }
+         cell.textLabel.font = [cell.textLabel.font fontWithSize:14];
+         cell.textLabel.numberOfLines = 0;
+         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+         cell.textLabel.text = @"No Internet Connection. \nPlease Connect to the Internet...";
+         
+         return cell;
+     }
     
     
     

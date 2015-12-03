@@ -24,6 +24,8 @@
 
 @property (strong, nonatomic) NSMutableArray* coffeesArray;
 
+@property (strong, nonatomic) NSMutableArray* itemsArray;
+
 @property (nonatomic, assign) NSNumber* juiceCount;
 
 @property (nonatomic, assign) NSNumber* bowlCount;
@@ -31,6 +33,9 @@
 @property (nonatomic, assign) NSNumber* healthshotCount;
 @property (nonatomic, assign) NSNumber* hotdrinkCount;
 @property (nonatomic, assign) NSNumber* coffeeCount;
+@property (nonatomic, assign) double totalAddin;
+
+
 
 
 
@@ -56,8 +61,12 @@
         self.healthshotsArray = [[NSMutableArray alloc] init];
         self.hotdrinksArray = [[NSMutableArray alloc] init];
         self.coffeesArray = [[NSMutableArray alloc] init];
+        
+     //   self.addinPrice = [[NSMutableArray alloc] init];
 
          _juiceDict = [[NSMutableDictionary alloc] init];
+        
+         _addinDict = [[NSMutableDictionary alloc] init];
         
     }
     return self;
@@ -101,6 +110,10 @@
     return self.coffeesArray;
 }
 
+- (NSArray*)itemsInCart {
+    return self.itemsArray;
+}
+
 
 /*
 - (BOOL)containsJuice:(Juice*)juice {
@@ -117,6 +130,8 @@
     
     
         [self.juicesArray addObject:juice];
+    
+    [self.itemsArray addObject:juice.ID];
     
     
     for (Juice* juice in self.juicesInCart) {
@@ -160,6 +175,7 @@
 
 - (void)addBowlCount:(NSNumber *)bowlcount {
     
+        
     self.bowlCount = bowlcount;
     
     NSLog(@"originl bowvalue :%@",self.bowlCount);
@@ -206,6 +222,8 @@
     
     [self.smootheesArray addObject:smoothee];
     
+    [self.itemsArray addObject:smoothee.smootheeID];
+    
     for (Smoothee* smoothee in self.smootheesInCart) {
         
         [_juiceDict setObject:self.smootheeCount forKey: smoothee.smootheeName];
@@ -218,6 +236,8 @@
 - (void)addBowl:(Bowl *)bowl {
     
     [self.bowlsArray addObject:bowl];
+    
+      [self.itemsArray addObject:bowl.bowlID];
     
     for (Bowl* bowl in self.bowlsInCart) {
         
@@ -246,6 +266,8 @@
     
     [self.healthshotsArray addObject:healthshot];
     
+     [self.itemsArray addObject:healthshot.healthID];
+    
     for (HealthShot* healthshot in self.healthshotsInCart) {
         
         [_juiceDict setObject:self.healthshotCount forKey: healthshot.healthName];
@@ -258,6 +280,8 @@
     
     [self.hotdrinksArray addObject:hotdrink];
     
+    [self.itemsArray addObject:hotdrink.hotID];
+    
     for (HotDrink* hotdrink in self.hotdrinksInCart) {
         
         [_juiceDict setObject:self.hotdrinkCount forKey: hotdrink.hotName];
@@ -266,9 +290,11 @@
 }
 
 
-- (void)addCOffee:(Coffee *)coffee {
+- (void)addCoffee:(Coffee *)coffee {
     
     [self.coffeesArray addObject:coffee];
+    
+    [self.itemsArray addObject:coffee.coffeeID];
     
     for (Coffee* coffee in self.coffeesInCart) {
         
@@ -276,6 +302,30 @@
     }
     
 }
+
+- (void)addAddin:(NSMutableArray *)addin second: (NSString *) category{
+    
+  //  [self.coffeesArray addObject:coffee];
+    
+    _totalAddin = 0.0f;
+    
+    for (Addin* addins in addin) {
+        
+      
+        
+        
+        
+        _totalAddin += [addins.addinPrice doubleValue];
+        
+        
+    }
+    
+     [_addinDict setObject: addin forKey:[NSString stringWithFormat:@"%@-addin",category]];
+    
+    
+
+}
+
 
 
 
@@ -293,6 +343,9 @@
     for (Juice* juice in self.juicesInCart) {
             
     NSNumber *valueCount = [_juiceDict objectForKey:juice.name];
+     
+//        _allItems = [[[self.juice.ID stringByAppendingString:@","] stringByAppendingString:self.juice.name] stringByAppendingString:self.juice.
+        
             
     NSLog(@" dic :%@",valueCount);
         
@@ -346,6 +399,10 @@
         total *= lnumber;
         
     }
+    
+    
+    total += _totalAddin;
+    
     
     
     NSLog(@" total :%f",total);

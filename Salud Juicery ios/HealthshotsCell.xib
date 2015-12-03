@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="HealthshotsCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fjl-DH-jCV">
+                        <rect key="frame" x="11" y="8" width="194" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="194" id="J8A-Cx-PBH"/>
+                            <constraint firstAttribute="height" constant="21" id="dR6-Ii-8Md"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ey-d8-y7R">
+                        <rect key="frame" x="232" y="8" width="67" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="67" id="8cY-RV-R0i"/>
+                            <constraint firstAttribute="height" constant="21" id="lWk-rZ-L3b"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6oK-RY-iFu">
+                        <rect key="frame" x="11" y="30" width="288" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Q4d-s9-xUa"/>
+                            <constraint firstAttribute="width" constant="288" id="zEP-JE-2EW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="5Ey-d8-y7R" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Oqc-Z3-Kl6"/>
+                    <constraint firstItem="Fjl-DH-jCV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ZiD-Ws-z2l"/>
+                    <constraint firstItem="5Ey-d8-y7R" firstAttribute="leading" secondItem="Fjl-DH-jCV" secondAttribute="trailing" constant="27" id="bIr-cc-60Z"/>
+                    <constraint firstItem="6oK-RY-iFu" firstAttribute="top" secondItem="5Ey-d8-y7R" secondAttribute="bottom" constant="1" id="kgz-eW-OlV"/>
+                    <constraint firstItem="Fjl-DH-jCV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="mN8-9w-KQj"/>
+                    <constraint firstItem="6oK-RY-iFu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="tae-Gm-gcq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.43472644269999999" green="1" blue="0.23648486899999999" alpha="0.53000000000000003" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="healthshotsIngredients" destination="6oK-RY-iFu" id="c9l-Cr-8Sb"/>
+                <outlet property="healthshotsNameLabel" destination="Fjl-DH-jCV" id="pIl-Yz-2Zx"/>
+                <outlet property="healthshotsPrice" destination="5Ey-d8-y7R" id="98Y-46-LU9"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

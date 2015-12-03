@@ -1,0 +1,113 @@
+ [
+  
+  {
+  "id" : 12252012,
+  "name" : "Almond",
+  "ingredients" : "Almond,Chocolate,Vanilla,Milk",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/dachshund.jpeg",
+  "quantity" : 28,
+  "max_height" : 18,
+  "cuddle_factor" : 5,
+  "price" : 299.99
+  },
+  
+  {
+  "id" : 12252013,
+  "name" : "LassyMilk",
+  "ingredients" : "Aaloo,milk",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/spaniel.jpeg",
+  "quantity" : 33,
+  "max_height" : 15.5,
+  "cuddle_factor" : 4.5,
+  "price" : 399.99
+  },
+  
+  {
+  "id" : 12252014,
+  "name" : "Pomo",
+  "ingredients" : "Chihuahua",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/chihuahua.jpeg",
+  "quantity" : 6,
+  "max_height" : 10,
+  "cuddle_factor" : 3,
+  "price" : 199.99
+  },
+  
+  {
+  "id" : 12252015,
+  "name" : "SweetJuice",
+  "ingredients" : "Great Dane",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/dane.jpeg",
+  "quantity" : 180,
+  "max_height" : 43,
+  "cuddle_factor" : 2,
+  "price" : 499.99
+  },
+  
+  {
+  "id" : 12252016,
+  "name" : "Governor",
+  "ingredients" : "French Bulldog",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/french.jpeg",
+  "quantity" : 30,
+  "max_height" : 12,
+  "cuddle_factor" : 5,
+  "price" : 699.99
+  },
+  
+  {
+  "id" : 12252017,
+  "name" : "Sally",
+  "ingredients" : "English Bulldog",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/english.jpeg",
+  "quantity" : 55,
+  "max_height" : 16,
+  "cuddle_factor" : 4.2,
+  "price" : 299.99
+  },
+  
+  {
+  "id" : 12252018,
+  "name" : "Stanley",
+  "ingredients" : "Basset Hound",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/basset.jpeg",
+  "quantity" : 65,
+  "max_height" : 12,
+  "cuddle_factor" : 3,
+  "price" : 259.99
+  },
+  
+  {
+  "id" : 12252019,
+  "name" : "Tina",
+  "ingredients" : "Beagle",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/beagle.jpeg",
+  "quantity" : 28,
+  "max_height" : 18,
+  "cuddle_factor" : 4.5,
+  "price" : 449.99
+  },
+  
+  {
+  "id" : 12252020,
+  "name" : "Rufus",
+  "ingredients" : "Chow Chow",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/chow.jpeg",
+  "quantity" : 45,
+  "max_height" : 18,
+  "cuddle_factor" : 5,
+  "price" : 699.99
+  },
+  
+  {
+  "id" : 12252021,
+  "name" : "Perdita",
+  "ingredients" : "Dalmatian",
+  "photo-large" : "http://www.raywenderlich.com/downloads/puppies/dalmatian.jpeg",
+  "quantity" : 24,
+  "max_height" : 65,
+  "cuddle_factor" : 3,
+  "price" : 9.99
+  }
+  
+  ]

@@ -14,6 +14,8 @@
 #import "Bowl.h"
 #import "Bowls.h"
 #import "BowlsCell.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 @interface BowlsListViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -28,6 +30,8 @@
 @end
 
 @implementation BowlsListViewController
+
+NSString* status = @"";
 
 @synthesize bowls;
 @synthesize tableView;
@@ -47,11 +51,37 @@
     
     [super viewDidLoad];
     
+    
+    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+    
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        [view displayMessage];
+        status = @"No";
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+        
+    {
+    
         self.item = @[@"Item 1", @"Item 2", @"Item 3", @"Item 4", @"Item 5"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"BowlsCell" bundle:nil] forCellReuseIdentifier:@"BowlsCell"];
     
     self.str3 = @"Bowl";
+        
+    }
+    
+     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        
+    
 }
 
 #pragma mark - Table view data source
@@ -63,7 +93,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
+      if (![status isEqualToString:@"No"]){
+    
+    
     return [Bowls sharedInstance].allBowls.count;
+      }
+      else{
+          return 1;
+      }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -78,6 +116,9 @@
     return cell;
     
     */
+    
+      if (![status isEqualToString:@"No"]){
+    
     Bowl* bowl = [Bowls sharedInstance].allBowls[indexPath.row];
     
     BowlsCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"BowlsCell"];
@@ -91,7 +132,25 @@
     cell.bowlPrice.text = [bowl.bowlPrice stringValue];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    return cell;
+          return cell;
+      }
+      else{
+          
+          static NSString *CellIdentifier = @"newFriendCell";
+          UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+          
+          if (cell == nil) {
+              cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+          }
+          cell.textLabel.font = [cell.textLabel.font fontWithSize:14];
+          cell.textLabel.numberOfLines = 0;
+          cell.textLabel.textAlignment = NSTextAlignmentCenter;
+          cell.textLabel.text = @"No Internet Connection.\nPlease Connect to the Internet...";
+          
+          return cell;
+          
+          
+      }
     
 }
 
@@ -135,12 +194,7 @@ JuiceDetailViewController *wc = [[UIStoryboard storyboardWithName:@"Main" bundle
 }
 
 
-- (void)loadRecipes
-{
-    NSString* url = @"http://content.guardianapis.com/search?api-key=test";
-    Json *myJsonParser = [[Json alloc]init];
-    [myJsonParser startLoadingObjectWithUrl:url andDelegate:self];
-}
+
 
 
 @end

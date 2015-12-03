@@ -8,6 +8,8 @@
 #import "AddIns.h"
 #import "Addin.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIalertMessage.h"
 
 
 @implementation AddIns
@@ -41,6 +43,26 @@
 - (NSArray *)loadAddInsFromJSON {
     
     
+    
+//    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+//    
+//    //Below code checks whether internet connection is there or not
+//    
+//    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+//    
+//    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+//    
+//    if (networkStatus == NotReachable) {
+//        
+//        [view displayMessage];
+//        
+//        // [displayMessage:@"No Internet Connection available..Please try again later."];
+//        
+//    } else
+//        
+//    {
+    
+    
     RemoteLogin *remote = [[RemoteLogin alloc] init];
     
     int res = [remote getConnection:nil forobjects:nil forurl:@"http://ec2-52-88-11-130.us-west-2.compute.amazonaws.com:3000/menu/addons/get"];
@@ -72,40 +94,42 @@
         //  NSData* jsonData =  [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
         //  NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
         
-        NSMutableArray* coffeeArray = [[NSMutableArray alloc] initWithCapacity:menuArray.count];
+        NSMutableArray* addinArray = [[NSMutableArray alloc] initWithCapacity:menuArray.count];
         
-        for (NSDictionary* coffeeDictionary in menuArray) {
+        for (NSDictionary* addinDictionary in menuArray) {
             
-            
+            NSLog(@"bowlsdiction: %@",addinDictionary);
             
             
             Addin* juice = [[Addin alloc] init];
             
-            category = coffeeDictionary[@"category"];
             
-            if([category  isEqual: @"COFFEE-BASED"])
-            {
                 
                 // juice.bowlID = bowlDictionary[@"id"];
-                juice.addinName = coffeeDictionary[@"item_name"];
+                juice.addinName = addinDictionary[@"addon_name"];
                 //juice.coffeeIngredients = coffeeDictionary[@"description"];
                 // puppy.photoURL = puppyDictionary[@"photo-large"];
                 // puppy.maxHeight = puppyDictionary[@"max_weight"];
                // juice.coffeeQuantity = coffeeDictionary[@"petite"];
                 // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-                juice.addinPrice = coffeeDictionary[@"regular"];
-                [coffeeArray addObject:juice];
+               // juice.addinPrice = addinDictionary[@"regular"];
+            
+            juice.addinPrice = [NSNumber numberWithDouble:2.5];
+                [addinArray addObject:juice];
                 
-            }
+            
             
             
         }
         
+        NSLog(@"%@",addinArray);
         
-        
-        return coffeeArray;
+        return addinArray;
         
     }
+//    
+//    }
+//    return nil;
     
 }
 

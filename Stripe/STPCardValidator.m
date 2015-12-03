@@ -61,11 +61,11 @@
         case 0:
         case 1:
             return STPCardValidationStateIncomplete;
-        case 2: {
-            if (sanitizedYear.integerValue == moddedYear) {
-                return sanitizedMonth.integerValue >= currentMonth ? STPCardValidationStateValid : STPCardValidationStateInvalid;
+        case 4: {
+            if (sanitizedYear.integerValue % 100 == moddedYear) {
+                return sanitizedMonth.integerValue % 100 >= currentMonth ? STPCardValidationStateValid : STPCardValidationStateInvalid;
             } else {
-                return sanitizedYear.integerValue > moddedYear ? STPCardValidationStateValid : STPCardValidationStateInvalid;
+                return sanitizedYear.integerValue % 100 > moddedYear ? STPCardValidationStateValid : STPCardValidationStateInvalid;
             }
         }
         default:

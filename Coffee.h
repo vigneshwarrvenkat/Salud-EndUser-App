@@ -15,10 +15,13 @@
 @property (strong, nonatomic) NSNumber* coffeeID;
 @property (strong, nonatomic) NSString* coffeeName;
 @property (strong, nonatomic) NSString* coffeeIngredients;
-@property (strong, nonatomic) NSString* photoURL;
+@property (strong, nonatomic) NSString* coffeeInstructions;
 
 @property (strong, nonatomic) NSNumber* coffeePrice;        //$$
-@property (strong, nonatomic) NSNumber* coffeeQuantity;
+@property (strong, nonatomic) NSNumber* coffeeQuantityPetite;
+
+@property (strong, nonatomic) NSNumber* coffeeQuantityRegular;
+@property (strong, nonatomic) NSNumber* coffeeQuantityGrowler;
 
 
 

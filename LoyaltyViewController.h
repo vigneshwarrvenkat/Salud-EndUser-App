@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarloyaltyButton;
 @property (weak, nonatomic) IBOutlet UIImageView *loyaltyImageView;
 
+@property (strong, nonatomic) IBOutlet UIButton *menuItems;
+- (IBAction)menuItems:(UIButton *)sender;
 
 @property (strong, nonatomic) UILabel *rewardPoints;
 

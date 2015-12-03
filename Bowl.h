@@ -16,10 +16,15 @@
 @property (strong, nonatomic) NSNumber* bowlID;
 @property (strong, nonatomic) NSString* bowlName;
 @property (strong, nonatomic) NSString* bowlIngredients;
-@property (strong, nonatomic) NSString* photoURL;
+@property (strong, nonatomic) NSString* bowlInstructions;
 
 @property (strong, nonatomic) NSNumber* bowlPrice;        //$$
-@property (strong, nonatomic) NSNumber* bowlQuantity;    //lbs
+@property (strong, nonatomic) NSNumber* bowlQuantityPetite;    //lbs
+
+@property (strong, nonatomic) NSNumber* bowlQuantityRegular;
+
+@property (strong, nonatomic) NSNumber* bowlQuantityGrowler;
+
 //@property (strong, nonatomic) NSNumber* maxHeight;    //in
 //@property (strong, nonatomic) NSNumber* cuddleFactor; //out of 5
 

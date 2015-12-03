@@ -15,12 +15,15 @@
 @property (strong, nonatomic) NSNumber* ID;
 @property (strong, nonatomic) NSString* name;
 @property (strong, nonatomic) NSString* ingredients;
-@property (strong, nonatomic) NSString* photoURL;
+@property (strong, nonatomic) NSString* juiceInstructions;
 @property (strong, nonatomic) NSNumber* countValue;
 
 
 @property (strong, nonatomic) NSNumber* price;        //$$
-@property (strong, nonatomic) NSNumber* quantity;    //lbs
+@property (strong, nonatomic) NSNumber* quantityPetite;    //lbs
+@property (strong, nonatomic) NSNumber* quantityRegular;
+@property (strong, nonatomic) NSNumber* quantityGrowler;
+
 //@property (strong, nonatomic) NSNumber* maxHeight;    //in
 @property (strong, nonatomic) NSNumber* cuddleFactor; //out of 5
 

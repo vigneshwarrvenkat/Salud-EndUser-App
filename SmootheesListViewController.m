@@ -14,6 +14,8 @@
 #import "Smoothee.h"
 #import "Smoothees.h"
 #import "SmootheesCell.h"
+#import "Reachability.h"
+
 
 
 @interface SmootheesListViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -30,6 +32,8 @@
 @end
 
 @implementation SmootheesListViewController
+
+NSString* statusSmootheeConnection = @"";
 
 @synthesize smoothees;
 
@@ -48,44 +52,59 @@
     
     [super viewDidLoad];
     
-    _smootheesArray = [@[@"photo_sample_01",
-                     @"photo_sample_02",
-                     @"photo_sample_03",
-                     @"photo_sample_04",
-                     @"photo_sample_05",
-                     @"photo_sample_06",
-                     @"photo_sample_07",
-                     @"photo_sample_08",
-                     @"photo_sample_01",
-                     @"photo_sample_02",
-                     @"photo_sample_03",
-                     @"photo_sample_04",
-                     @"photo_sample_05",
-                     @"photo_sample_06",
-                     @"photo_sample_07",
-                     @"photo_sample_08",] mutableCopy];
+   // UIAlertMessage *view = [[UIAlertMessage alloc] init];
     
-    //self.item = @[@"Item 1", @"Item 2", @"Item 3", @"Item 4", @"Item 5"];
+    //Below code checks whether internet connection is there or not
     
-  //  [self.tableView registerNib:[UINib nibWithNibName:@"BowlsCell" bundle:nil] forCellReuseIdentifier:@"BowlsCell"];
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        statusSmootheeConnection = @"No";
+    
 
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+        
+    {
+    
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SmootheesCell" bundle:nil] forCellReuseIdentifier:@"SmootheesCell"];
     
     
     self.str4 = @"Smoothee";
+    
+    
+    }
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
+    
+    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
+    if ([statusSmootheeConnection isEqualToString:@"No"]){
+        
+        return 1;
+    }
+    else{
+    
+    
     return [Smoothees sharedInstance].allSmoothees.count;
+        
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,6 +119,8 @@
      return cell;
      
      */
+     if (![statusSmootheeConnection isEqualToString:@"No"]){
+    
     Smoothee* smoothee = [Smoothees sharedInstance].allSmoothees[indexPath.row];
     
     SmootheesCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"SmootheesCell"];
@@ -110,7 +131,23 @@
     cell.priceSmoothee.text = [smoothee.smootheePrice stringValue] ;
     
     return cell;
+     }
     
+    else{
+        
+        static NSString *CellIdentifier = @"newFriendCell";
+        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        cell.textLabel.font = [cell.textLabel.font fontWithSize:14];
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.text = @"No Internet Connection. \nPlease Connect to the Internet...";
+        
+        return cell;
+    }
     
     
     
@@ -158,12 +195,12 @@
 }
 
 
-- (void)loadRecipes
-{
-    NSString* url = @"http://content.guardianapis.com/search?api-key=test";
-    Json *myJsonParser = [[Json alloc]init];
-    [myJsonParser startLoadingObjectWithUrl:url andDelegate:self];
-}
+//- (void)loadRecipes
+//{
+//    NSString* url = @"http://content.guardianapis.com/search?api-key=test";
+//    Json *myJsonParser = [[Json alloc]init];
+//    [myJsonParser startLoadingObjectWithUrl:url andDelegate:self];
+//}
 
 
 /*
@@ -205,22 +242,22 @@
 
 
 
-- (void)dataRequestCompletedWithJsonObject:(id)jsonObject{
-    
-    NSDictionary *recipeDictionary = (NSDictionary*)jsonObject;
-    NSArray* recipeArray = (NSArray*) [recipeDictionary objectForKey:@"recipes"];
-    
-    for(NSDictionary* dic in recipeArray) {
-        Smoothee *smoothee = [[Smoothee alloc ] init];
-        
-        smoothee.smootheeName = [dic objectForKey:@"title"];
-        smoothee.thumbnail = [dic objectForKey:@"thumb"];
-        
-        [smoothees addObject:smoothee];
-        
-    }
-    
-}
+//- (void)dataRequestCompletedWithJsonObject:(id)jsonObject{
+//    
+//    NSDictionary *recipeDictionary = (NSDictionary*)jsonObject;
+//    NSArray* recipeArray = (NSArray*) [recipeDictionary objectForKey:@"recipes"];
+//    
+//    for(NSDictionary* dic in recipeArray) {
+//        Smoothee *smoothee = [[Smoothee alloc ] init];
+//        
+//        smoothee.smootheeName = [dic objectForKey:@"title"];
+//        smoothee.thumbnail = [dic objectForKey:@"thumb"];
+//        
+//        [smoothees addObject:smoothee];
+//        
+//    }
+//    
+//}
 
 
 

@@ -37,8 +37,26 @@
 
 @property (strong, nonatomic) NSMutableDictionary *juiceDict;
 
+@property (strong, nonatomic) NSMutableDictionary *addinDict;
+
 @property (strong, nonatomic) NSMutableDictionary *quantity;
 
+@property (nonatomic, assign) NSMutableArray* addinPrice;
+
+@property (strong, nonatomic) NSString* instructions; //special instructions
+
+@property (strong, nonatomic) NSString* userId; // It store the user id
+
+@property (strong, nonatomic) NSString* userEmail; // To store the user email.
+
+
+//@property (nonatomic, strong) NSMutableDictionary* itemDetails;
+//
+//@property (nonatomic, strong) NSMutableArray* allItemDetails;
+
+@property (strong, nonatomic) NSString *allItems;
+
+@property (strong, nonatomic) NSString *allItemName;
 
 - (NSArray*)addinsInCart;
 
@@ -53,7 +71,7 @@
 - (void)addHealthShot:(HealthShot*)healthshot;
 - (void)addHotDrink:(HotDrink*)hotdrink;
 - (void)addCoffee:(Coffee*)coffee;
-
+- (void)addAddin:(NSMutableArray *)addin second: (NSString *) category;
 
 - (void)addJuiceCount:(NSNumber *)juicecount;
 

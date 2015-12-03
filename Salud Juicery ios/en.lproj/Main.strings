@@ -1,0 +1,93 @@
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "1nG-Iy-J0O"; */
+"1nG-Iy-J0O.title" = "Title";
+
+/* Class = "UILabel"; text = "Required"; ObjectID = "2Qt-Zd-wNm"; */
+"2Qt-Zd-wNm.text" = "Required";
+
+/* Class = "UIViewController"; title = "Reveal View Controller"; ObjectID = "5Ji-E6-dls"; */
+"5Ji-E6-dls.title" = "Reveal View Controller";
+
+/* Class = "UILabel"; text = "Wishlist"; ObjectID = "6Tw-Hj-5h6"; */
+"6Tw-Hj-5h6.text" = "Wishlist";
+
+/* Class = "UIButton"; normalTitle = "Sign out"; ObjectID = "AuH-HT-zub"; */
+"AuH-HT-zub.normalTitle" = "Sign out";
+
+/* Class = "UILabel"; text = "Hi  el"; ObjectID = "ByT-tU-y2C"; */
+"ByT-tU-y2C.text" = "Hi  el";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "EUX-oc-Buh"; */
+"EUX-oc-Buh.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Loyalty"; ObjectID = "GVe-9K-cS4"; */
+"GVe-9K-cS4.text" = "Loyalty";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "Ggs-Gp-tuY"; */
+"Ggs-Gp-tuY.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "IQK-aZ-eby"; */
+"IQK-aZ-eby.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Home"; ObjectID = "La3-Hj-m1x"; */
+"La3-Hj-m1x.text" = "Home";
+
+/* Class = "UILabel"; text = "Log out"; ObjectID = "MZZ-1g-FKZ"; */
+"MZZ-1g-FKZ.text" = "Log out";
+
+/* Class = "UIButton"; normalTitle = "Refer a friend"; ObjectID = "MpX-ep-5jy"; */
+"MpX-ep-5jy.normalTitle" = "Refer a friend";
+
+/* Class = "UILabel"; text = "Quantity"; ObjectID = "OYJ-u1-R0S"; */
+"OYJ-u1-R0S.text" = "Quantity";
+
+/* Class = "UIButton"; normalTitle = "Offers"; ObjectID = "TTA-a6-Fyc"; */
+"TTA-a6-Fyc.normalTitle" = "Offers";
+
+/* Class = "UIButton"; normalTitle = "Pay"; ObjectID = "Wdn-F4-AgG"; */
+"Wdn-F4-AgG.normalTitle" = "Pay";
+
+/* Class = "UILabel"; text = "Salud"; ObjectID = "Z1O-0e-ylj"; */
+"Z1O-0e-ylj.text" = "Salud";
+
+/* Class = "UIButton"; normalTitle = "Select Addins"; ObjectID = "ZHQ-qA-HdK"; */
+"ZHQ-qA-HdK.normalTitle" = "Select Addins";
+
+/* Class = "UITextField"; placeholder = "Required"; ObjectID = "aNv-gR-R7l"; */
+"aNv-gR-R7l.placeholder" = "Required";
+
+/* Class = "UIButton"; normalTitle = "Proceed"; ObjectID = "aRM-Nc-C4E"; */
+"aRM-Nc-C4E.normalTitle" = "Proceed";
+
+/* Class = "UILabel"; text = "Card Number"; ObjectID = "cp5-nz-PZy"; */
+"cp5-nz-PZy.text" = "Card Number";
+
+/* Class = "UILabel"; text = "Exp. Date"; ObjectID = "dXc-x7-qAd"; */
+"dXc-x7-qAd.text" = "Exp. Date";
+
+/* Class = "UILabel"; text = "We provide"; ObjectID = "eZ0-la-YRZ"; */
+"eZ0-la-YRZ.text" = "We provide";
+
+/* Class = "UIBarButtonItem"; title = "Checkout"; ObjectID = "jia-2e-cO9"; */
+"jia-2e-cO9.title" = "Checkout";
+
+/* Class = "UILabel"; text = "Profile"; ObjectID = "mF0-Nr-6v0"; */
+"mF0-Nr-6v0.text" = "Profile";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "oan-xx-7MY"; */
+"oan-xx-7MY.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "qCQ-vb-6jm"; */
+"qCQ-vb-6jm.text" = "Location";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "sNe-Gl-u3C"; */
+"sNe-Gl-u3C.title" = "Item";
+
+/* Class = "UITextField"; placeholder = "Select Location"; ObjectID = "tdz-cg-2V7"; */
+"tdz-cg-2V7.placeholder" = "Select Location";
+
+/* Class = "UINavigationItem"; title = "Payment"; ObjectID = "vRR-n8-xHs"; */
+"vRR-n8-xHs.title" = "Payment";
+
+/* Class = "UIButton"; normalTitle = "Complete"; ObjectID = "wuw-Qd-edy"; */
+"wuw-Qd-edy.normalTitle" = "Complete";

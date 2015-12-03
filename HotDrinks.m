@@ -9,6 +9,8 @@
 #import "HotDrinks.h"
 #import "HotDrink.h"
 #import "RemoteLogin.h"
+#import "Reachability.h"
+#import "UIAlertMessage.h"
 
 @implementation HotDrinks
 
@@ -36,6 +38,27 @@
 
 - (NSArray *)loadHotDrinksFromJSON {
     
+    
+    /*
+    UIAlertMessage *view = [[UIAlertMessage alloc] init];
+    
+    //Below code checks whether internet connection is there or not
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable) {
+        
+        [view displayMessage];
+        
+        // [displayMessage:@"No Internet Connection available..Please try again later."];
+        
+    } else
+    
+    {
+     */
+    
     RemoteLogin *remote = [[RemoteLogin alloc] init];
     
     int res = [remote getConnection:nil forobjects:nil forurl:@"http://ec2-52-88-11-130.us-west-2.compute.amazonaws.com:3000/menu/get"];
@@ -58,7 +81,7 @@
         
         //  NSString* filePath = [[NSBundle mainBundle] pathForResource:@"Smoothees" ofType:@"json"];
         
-        NSError* error;
+       
         NSString* category;
         //  NSData* jsonData =  [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
         //  NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -77,14 +100,16 @@
             if([category  isEqual: @"MEDICINAL"])
             {
                 
-                // juice.bowlID = bowlDictionary[@"id"];
+                juice.hotID = hotdrinkDictionary[@"menu_id"];
                 juice.hotName = hotdrinkDictionary[@"item_name"];
                 juice.hotIngredients = hotdrinkDictionary[@"description"];
                 // puppy.photoURL = puppyDictionary[@"photo-large"];
                 // puppy.maxHeight = puppyDictionary[@"max_weight"];
-                juice.hotQuantity = hotdrinkDictionary[@"petite"];
+                juice.hotQuantityPetite = hotdrinkDictionary[@"petite"];
+                juice.hotQuantityRegular = hotdrinkDictionary[@"regular"];
+                juice.hotQuantityGrowler = hotdrinkDictionary[@"growler"];
                 // puppy.cuddleFactor = puppyDictionary[@"cuddle_factor"];
-                juice.hotPrice = hotdrinkDictionary[@"regular"];
+                //juice.hotPrice = hotdrinkDictionary[@"regular"];
                 [hotdrinkArray addObject:juice];
                 
             }
@@ -97,7 +122,8 @@
         return hotdrinkArray;
         
     }
-    
+
+
 }
 
 
